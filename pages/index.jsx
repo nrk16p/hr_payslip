@@ -4,7 +4,6 @@ import { useState } from "react";
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("all");
 
-  const tabs = ["All", "Active", "Draft", "Archived"];
 
   const cards = [
     {
@@ -38,26 +37,10 @@ export default function Dashboard() {
           💼 Mena Payroll Dashboard
         </h1>
         <p className="text-gray-600 mb-8 leading-relaxed max-w-3xl">
-          ระบบบริหารจัดการเงินเดือนของ MenaTech ช่วยให้คุณสามารถอัปโหลดไฟล์ Excel
-          จัดหมวดหมู่รายการเงินเดือน และดูข้อมูลพนักงานได้อย่างง่ายดาย
+          ระบบบริหารจัดการเงินเดือนของ MenaTech ช่วยให้คุณสามารถอัปโหลดไฟล์ Excel จัดหมวดหมู่รายการเงินเดือน และดูข้อมูลพนักงานได้อย่างง่ายดาย
         </p>
 
-        {/* Tabs */}
-        <div className="flex gap-2 mb-8 bg-white border border-gray-200 rounded-xl w-fit p-1 shadow-sm">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab.toLowerCase())}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeTab === tab.toLowerCase()
-                  ? "bg-gray-100 text-gray-900 shadow-sm"
-                  : "text-gray-500 hover:text-gray-800"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
+
 
         {/* Cards */}
         <div className="grid gap-6 md:grid-cols-3">
