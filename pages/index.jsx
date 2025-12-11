@@ -4,6 +4,7 @@ import { useState } from "react";
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("all");
 
+  const tabs = ["All", "Active", "Draft", "Archived"];
 
   const cards = [
     {
