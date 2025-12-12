@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { getSalary, updateSalary } from "../lib/api";
+import { getSalary, updateSalary, deleteSalary } from "../lib/api";
 
 export default function SalaryData() {
   const [params, setParams] = useState({ emp_id: "", "month-year": "" });
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   // 🔍 Load salary data
   const handleSearch = async () => {
@@ -48,11 +49,33 @@ export default function SalaryData() {
     }
   };
 
-  // ✏️ Update a single field
+  // 🗑️ Delete salary data
+  const handleDelete = async () => {
+    if (!data) return alert("ไม่มีข้อมูลให้ลบ");
+
+    const confirmDelete = confirm(
+      `⚠️ ต้องการลบข้อมูลเงินเดือนของ ${data["ชื่อ - นามสกุล"]} (${data["รหัสพนักงาน"]})\nเดือน ${data.Sheet} ใช่หรือไม่?`
+    );
+    if (!confirmDelete) return;
+
+    setDeleting(true);
+    try {
+      await deleteSalary(data.Sheet, data["รหัสพนักงาน"]);
+      alert("🗑️ ลบข้อมูลเรียบร้อยแล้ว");
+      setData(null);
+    } catch (err) {
+      console.error("❌ Delete failed:", err);
+      alert("❌ ลบข้อมูลไม่สำเร็จ");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  // ✏️ Edit a single field
   const handleFieldEdit = (section, key, newValue) => {
     setData((prev) => {
       if (!prev) return prev;
-      const updated = structuredClone(prev); // ✅ deep copy
+      const updated = structuredClone(prev);
       updated.datalist[section][key] = newValue;
       return updated;
     });
@@ -137,8 +160,16 @@ export default function SalaryData() {
               onEdit={handleFieldEdit}
             />
 
-            {/* Save Button */}
-            <div className="mt-6 text-right">
+            {/* Action Buttons */}
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                onClick={handleDelete}
+                disabled={deleting}
+                className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition disabled:opacity-50"
+              >
+                {deleting ? "กำลังลบ..." : "🗑️ ลบข้อมูล"}
+              </button>
+
               <button
                 onClick={handleUpdate}
                 disabled={updating}
