@@ -100,7 +100,7 @@ export default function SalaryData() {
             />
             <input
               className="border border-gray-300 p-2 rounded-md flex-1 min-w-[250px] focus:ring-2 focus:ring-blue-200 outline-none"
-              placeholder="เดือน-ปี (เช่น November2025)"
+              placeholder="เดือน-ปี (เช่น November2568)"
               value={params["month-year"]}
               onChange={(e) =>
                 setParams({ ...params, "month-year": e.target.value })
