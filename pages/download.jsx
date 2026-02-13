@@ -13,16 +13,15 @@ export default function Download() {
     setLoading(true);
 
     const apiUrl =
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      process.env.NEXT_PUBLIC_API_URL ||
+      "https://api-payslip-v2.vercel.app";
 
     const url = `${apiUrl}/salary_data/export?month-year=${encodeURIComponent(
       month.trim()
     )}`;
 
-    // เปิด download
     window.open(url, "_blank");
 
-    // reset loading
     setTimeout(() => setLoading(false), 1000);
   };
 
@@ -30,12 +29,10 @@ export default function Download() {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-3xl mx-auto">
 
-        {/* Header */}
         <h1 className="text-2xl font-bold mb-6 flex items-center gap-2">
           📥 Download Payroll Excel
         </h1>
 
-        {/* Card */}
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
 
           <p className="text-gray-700 mb-4">
@@ -44,7 +41,6 @@ export default function Download() {
 
           <div className="flex flex-col sm:flex-row items-center gap-3">
 
-            {/* Input */}
             <input
               type="text"
               placeholder="เช่น January2026"
@@ -53,7 +49,6 @@ export default function Download() {
               className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-200 outline-none bg-gray-50"
             />
 
-            {/* Button */}
             <button
               onClick={handleDownload}
               disabled={loading}
