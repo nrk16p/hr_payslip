@@ -9,7 +9,8 @@ export default function Navbar() {
     { label: "Upload", href: "/upload" },
     { label: "Metadata", href: "/salary-meta" },
     { label: "Salary", href: "/salary-data" },
-      { label: "Window", href: "/api-window" },
+    { label: "Active Window", href: "/api-window" },
+    { label: "Downloadexcel ", href: "/download" },
 
   ];
 
