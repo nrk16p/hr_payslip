@@ -6,7 +6,7 @@ export default function Download() {
 
   const handleDownload = () => {
     if (!month.trim()) {
-      alert("กรุณาระบุ month-year เช่น January2026");
+      alert("กรุณาระบุ month-year เช่น January2569");
       return;
     }
 
@@ -36,14 +36,14 @@ export default function Download() {
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
 
           <p className="text-gray-700 mb-4">
-            ดาวน์โหลดไฟล์เงินเดือนแบบ Pivot (1 คน ต่อ 1 แถว)
+            ดาวน์โหลดไฟล์เงินเดือน
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-3">
 
             <input
               type="text"
-              placeholder="เช่น January2026"
+              placeholder="เช่น January2569"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
               className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-200 outline-none bg-gray-50"
