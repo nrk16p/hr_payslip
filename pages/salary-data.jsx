@@ -223,42 +223,53 @@ export default function SalaryData() {
         </h1>
 
         {/* SEARCH CARD */}
-        <div className="bg-white border rounded-xl shadow-sm p-6 space-y-4">
-          <div>
-            <label className="text-sm font-medium text-slate-600 mb-1 block">
-              พนักงาน
-            </label>
-            <DropdownSearch
-              value={params.emp_id}
-              onChange={handleEmployeeChange}
-              options={employeeOptions}
-              placeholder="-- เลือกพนักงาน --"
-              searchPlaceholder="ค้นหา รหัส หรือ ชื่อ..."
-              error={!params.emp_id}
-            />
-          </div>
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
 
-          <div>
-            <label className="text-sm font-medium text-slate-600 mb-1 block">
-              เดือน-ปี
-            </label>
-            <DropdownSearch
-              value={params["month-year"]}
-              onChange={handleMonthChange}
-              options={monthOptions}
-              placeholder="-- เลือกเดือน-ปี --"
-              searchPlaceholder="ค้นหาเดือน..."
-              error={!params["month-year"]}
-            />
-          </div>
+          {/* Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
 
-          <button
-            onClick={handleSearch}
-            disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md py-2 text-sm font-medium transition disabled:opacity-50"
-          >
-            {loading ? "กำลังค้นหา..." : "🔍 ค้นหา"}
-          </button>
+            {/* Employee */}
+            <div>
+              <label className="text-sm font-medium text-slate-600 mb-2 block">
+                👨‍✈️ พนักงาน 
+              </label>
+              <DropdownSearch
+                value={params.emp_id}
+                onChange={handleEmployeeChange}
+                options={employeeOptions}
+                placeholder="-- เลือกพนักงาน --"
+                searchPlaceholder="ค้นหา รหัส หรือ ชื่อ..."
+                error={!params.emp_id}
+              />
+            </div>
+
+            {/* Month-Year */}
+            <div>
+              <label className="text-sm font-medium text-slate-600 mb-2 block">
+                🗓️ เดือน-ปี
+              </label>
+              <DropdownSearch
+                value={params["month-year"]}
+                onChange={handleMonthChange}
+                options={monthOptions}
+                placeholder="-- เลือกเดือน-ปี --"
+                searchPlaceholder="ค้นหาเดือน..."
+                error={!params["month-year"]}
+              />
+            </div>
+
+            {/* Button */}
+            <div>
+              <button
+                onClick={handleSearch}
+                disabled={loading}
+                className="w-full md:w-auto px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-medium transition-all shadow-sm hover:shadow-md disabled:opacity-50"
+              >
+                {loading ? "กำลังค้นหา..." : "🔍 ค้นหา"}
+              </button>
+            </div>
+
+          </div>
         </div>
 
         {/* RESULT */}
