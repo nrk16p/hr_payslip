@@ -5,6 +5,35 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Mena Payroll — formal ledger / brass-seal theme */
+@theme {
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "IBM Plex Sans Thai", "IBM Plex Sans", ui-sans-serif, system-ui,
+    sans-serif;
+
+  --color-ink-950: #070a12;
+  --color-ink-900: #0a0e18;
+  --color-ink-850: #0d1526;
+  --color-ink-800: #121a2e;
+  --color-ink-700: #1a2338;
+  --color-ink-600: #232e48;
+
+  --color-brass-300: #f0d9a0;
+  --color-brass-400: #e3c078;
+  --color-brass-500: #cda152;
+  --color-brass-600: #ad813a;
+
+  --color-parchment: #f4ecd8;
+  --color-slate-300: #aab2c2;
+  --color-slate-400: #8a94a8;
+  --color-slate-500: #6b7488;
+
+  --color-oxblood: #b6473f;
+  --color-oxblood-light: #f0c4be;
+
+  --color-emerald-brass: #7fae7a;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -28,6 +57,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -47,38 +77,40 @@
 }
 
 :root {
+  color-scheme: dark;
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --background: #0a0e18;
+  --foreground: #f4ecd8;
+  --card: #141d33;
+  --card-foreground: #f4ecd8;
+  --popover: #141d33;
+  --popover-foreground: #f4ecd8;
+  --primary: #cda152;
+  --primary-foreground: #14100a;
+  --secondary: #1a2338;
+  --secondary-foreground: #f4ecd8;
+  --muted: #1a2338;
+  --muted-foreground: #8a94a8;
+  --accent: #232e48;
+  --accent-foreground: #f0d9a0;
+  --destructive: #b6473f;
+  --destructive-foreground: #f4ecd8;
+  --border: rgba(227, 192, 120, 0.14);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: rgba(227, 192, 120, 0.5);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #0d1526;
+  --sidebar-foreground: #f4ecd8;
+  --sidebar-primary: #cda152;
+  --sidebar-primary-foreground: #14100a;
+  --sidebar-accent: #1a2338;
+  --sidebar-accent-foreground: #f4ecd8;
+  --sidebar-border: rgba(227, 192, 120, 0.14);
+  --sidebar-ring: rgba(227, 192, 120, 0.5);
 }
 
 .dark {
@@ -121,5 +153,35 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
   }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Shared ledger-paper texture for the app shell */
+.ledger-surface {
+  background:
+    radial-gradient(60% 45% at 50% 0%, rgba(205, 161, 82, 0.08), transparent 65%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(240, 217, 160, 0.03) 0px,
+      rgba(240, 217, 160, 0.03) 1px,
+      transparent 1px,
+      transparent 29px
+    ),
+    linear-gradient(160deg, #0a0e18 0%, #0d1526 55%, #0a0e18 100%);
+}
+
+.ledger-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }

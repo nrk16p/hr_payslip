@@ -69,11 +69,11 @@ export default function DropdownSearch({
       {/* Trigger */}
       <div
         onClick={() => setOpen((prev) => !prev)}
-        className={`w-full flex justify-between items-center border rounded-lg px-3 py-2 text-sm cursor-pointer bg-white transition-all
-        ${error ? "border-red-400" : "border-slate-300"}
-        hover:border-blue-400 focus-within:ring-2 focus-within:ring-blue-200`}
+        className={`w-full flex justify-between items-center border rounded-lg px-3 py-2 text-sm cursor-pointer bg-ink-900/60 text-parchment transition-all
+        ${error ? "border-oxblood/50" : "border-white/10"}
+        hover:border-brass-400/40 focus-within:ring-2 focus-within:ring-brass-400/15`}
       >
-        <span className={`${!selected && "text-slate-400"}`}>
+        <span className={`${!selected && "text-slate-500"}`}>
           {selected ? selected.label : placeholder}
         </span>
 
@@ -81,26 +81,26 @@ export default function DropdownSearch({
           {selected && (
             <X
               size={14}
-              className="text-slate-400 hover:text-red-500 cursor-pointer"
+              className="text-slate-500 hover:text-oxblood-light cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
                 onChange(null);
               }}
             />
           )}
-          <ChevronDown size={16} className="text-slate-400" />
+          <ChevronDown size={16} className="text-slate-500" />
         </div>
       </div>
 
       {open && (
-        <div className="absolute z-50 mt-2 w-full bg-white border border-slate-200 rounded-xl shadow-lg animate-in fade-in zoom-in-95">
+        <div className="absolute z-50 mt-2 w-full bg-ink-800 border border-brass-400/20 rounded-xl shadow-[0_20px_40px_-20px_rgba(0,0,0,0.7)] animate-in fade-in zoom-in-95">
           {/* Search */}
-          <div className="p-2 border-b">
+          <div className="p-2 border-b border-white/5">
             <input
               type="text"
               autoFocus
               placeholder={searchPlaceholder}
-              className="w-full border border-slate-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="w-full border border-white/10 rounded-md px-2 py-1 text-sm bg-ink-900/60 text-parchment placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brass-400/15"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -125,16 +125,16 @@ export default function DropdownSearch({
                   setOpen(false);
                   setSearch("");
                 }}
-                className={`px-3 py-2 text-sm cursor-pointer transition-colors
+                className={`px-3 py-2 text-sm cursor-pointer transition-colors text-slate-300
                 ${
                   value === opt.value
-                    ? "bg-blue-50 text-blue-600"
+                    ? "bg-brass-400/10 text-brass-300"
                     : ""
                 }
                 ${
                   highlightIndex === index
-                    ? "bg-slate-100"
-                    : "hover:bg-slate-50"
+                    ? "bg-white/5"
+                    : "hover:bg-white/5"
                 }`}
               >
                 {opt.label}

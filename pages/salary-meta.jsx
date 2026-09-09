@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { SlidersHorizontal, Plus, Trash2 } from "lucide-react";
 import { getMeta, addMeta, deleteMeta } from "../lib/api";
 
 export default function SalaryMeta() {
@@ -16,8 +17,8 @@ export default function SalaryMeta() {
       const res = await getMeta();
       setMeta(res.data);
     } catch (err) {
-      console.error("❌ Failed to load metadata:", err);
-      alert("❌ โหลดข้อมูลไม่สำเร็จ");
+      console.error("Failed to load metadata:", err);
+      alert("โหลดข้อมูลไม่สำเร็จ");
     } finally {
       setLoading(false);
     }
@@ -30,8 +31,8 @@ export default function SalaryMeta() {
       setNewItem({ item_name: "", item_group: "earnings" });
       loadMeta();
     } catch (err) {
-      console.error("❌ Add failed:", err);
-      alert("❌ เพิ่มข้อมูลไม่สำเร็จ");
+      console.error("Add failed:", err);
+      alert("เพิ่มข้อมูลไม่สำเร็จ");
     }
   };
 
@@ -41,27 +42,35 @@ export default function SalaryMeta() {
       await deleteMeta(name);
       loadMeta();
     } catch (err) {
-      console.error("❌ Delete failed:", err);
-      alert("❌ ลบข้อมูลไม่สำเร็จ");
+      console.error("Delete failed:", err);
+      alert("ลบข้อมูลไม่สำเร็จ");
     }
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">⚙️ Salary Item Metadata</h1>
+    <div>
+      <div className="mb-8">
+        <span className="text-xs tracking-[0.22em] uppercase text-brass-500 font-medium">
+          Payroll Administration
+        </span>
+        <h1 className="font-display text-2xl font-semibold text-parchment mt-2 flex items-center gap-2.5">
+          <SlidersHorizontal size={21} strokeWidth={1.75} className="text-brass-400" />
+          Salary Item Metadata
+        </h1>
+      </div>
 
       {/* Input card */}
-      <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 mb-6 flex flex-wrap gap-3 items-center">
+      <div className="bg-ink-800/60 border border-brass-400/15 rounded-xl shadow-[0_20px_40px_-24px_rgba(0,0,0,0.6)] p-6 mb-6 flex flex-wrap gap-3 items-center">
         <input
           value={newItem.item_name}
           onChange={(e) => setNewItem({ ...newItem, item_name: e.target.value })}
           placeholder="ชื่อรายการ (Item Name)"
-          className="border border-gray-300 rounded-md p-2 flex-1 min-w-[200px]"
+          className="flex-1 min-w-[200px] border border-white/10 rounded-md p-2 text-sm text-parchment bg-ink-900/60 placeholder:text-slate-500 outline-none transition-colors focus:border-brass-400/50 focus:ring-2 focus:ring-brass-400/15"
         />
         <select
           value={newItem.item_group}
           onChange={(e) => setNewItem({ ...newItem, item_group: e.target.value })}
-          className="border border-gray-300 rounded-md p-2"
+          className="border border-white/10 rounded-md p-2 text-sm text-parchment bg-ink-900/60 outline-none focus:border-brass-400/50"
         >
           <option value="earnings">รายได้ (earnings)</option>
           <option value="deductions">รายจ่าย (deductions)</option>
@@ -69,32 +78,33 @@ export default function SalaryMeta() {
         </select>
         <button
           onClick={handleAdd}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow transition"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-semibold text-[#14100a] bg-gradient-to-b from-brass-300 to-brass-600 hover:brightness-110 transition-all"
         >
-          ➕ เพิ่มรายการ
+          <Plus size={15} strokeWidth={2} />
+          เพิ่มรายการ
         </button>
       </div>
 
       {/* Metadata table */}
-      <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-ink-800/60 border border-brass-400/15 rounded-xl shadow-[0_20px_40px_-24px_rgba(0,0,0,0.6)] overflow-hidden">
         <table className="w-full text-sm border-collapse">
-          <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
+          <thead className="bg-ink-900/60 text-slate-400 uppercase text-xs tracking-wide">
             <tr>
-              <th className="p-3 text-left">ชื่อรายการ</th>
-              <th className="p-3 text-left">กลุ่ม</th>
-              <th className="p-3 text-center w-24">จัดการ</th>
+              <th className="p-3 text-left font-medium">ชื่อรายการ</th>
+              <th className="p-3 text-left font-medium">กลุ่ม</th>
+              <th className="p-3 text-center w-24 font-medium">จัดการ</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="3" className="text-center py-6 text-gray-500">
+                <td colSpan="3" className="text-center py-6 text-slate-500">
                   กำลังโหลดข้อมูล...
                 </td>
               </tr>
             ) : meta.length === 0 ? (
               <tr>
-                <td colSpan="3" className="text-center py-6 text-gray-500">
+                <td colSpan="3" className="text-center py-6 text-slate-500">
                   ไม่มีข้อมูล
                 </td>
               </tr>
@@ -103,21 +113,22 @@ export default function SalaryMeta() {
                 <tr
                   key={m.item_name}
                   className={`${
-                    i % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  } hover:bg-blue-50 transition`}
+                    i % 2 === 0 ? "bg-white/[0.02]" : ""
+                  } hover:bg-brass-400/[0.06] transition-colors`}
                 >
-                  <td className="p-3 text-gray-800 border-b border-gray-100">
+                  <td className="p-3 text-parchment border-t border-white/5">
                     {m.item_name}
                   </td>
-                  <td className="p-3 text-gray-700 border-b border-gray-100">
+                  <td className="p-3 text-slate-400 border-t border-white/5">
                     {m.item_group}
                   </td>
-                  <td className="p-3 text-center border-b border-gray-100">
+                  <td className="p-3 text-center border-t border-white/5">
                     <button
                       onClick={() => handleDelete(m.item_name)}
-                      className="text-red-600 hover:text-red-800 font-medium"
+                      className="inline-flex items-center gap-1 text-oxblood hover:text-oxblood-light font-medium transition-colors"
                     >
-                      🗑 ลบ
+                      <Trash2 size={13} strokeWidth={1.75} />
+                      ลบ
                     </button>
                   </td>
                 </tr>

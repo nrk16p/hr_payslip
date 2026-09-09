@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 
+import { CalendarClock } from "lucide-react";
 import { getApiWindows, updateApiWindow } from "@/lib/api";
 
 export default function ApiWindowPage() {
@@ -64,12 +65,27 @@ export default function ApiWindowPage() {
     }
   }
 
-  if (loading) return <div className="p-6">Loading...</div>;
+  if (loading)
+    return (
+      <div className="flex items-center gap-2 text-sm text-slate-400">
+        <span className="inline-block w-1.5 h-1.5 rounded-full bg-brass-500 animate-pulse" />
+        Loading...
+      </div>
+    );
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-semibold">API Window Management</h1>
+    <div className="space-y-6">
+      <div>
+        <span className="text-xs tracking-[0.22em] uppercase text-brass-500 font-medium">
+          Payroll Administration
+        </span>
+        <h1 className="font-display text-2xl font-semibold text-parchment mt-2 flex items-center gap-2.5">
+          <CalendarClock size={21} strokeWidth={1.75} className="text-brass-400" />
+          API Window Management
+        </h1>
+      </div>
 
+      <div className="bg-ink-800/60 border border-brass-400/15 rounded-xl shadow-[0_20px_40px_-24px_rgba(0,0,0,0.6)] p-2">
       <Table>
         <TableHeader>
           <TableRow>
@@ -151,6 +167,7 @@ export default function ApiWindowPage() {
           ))}
         </TableBody>
       </Table>
+      </div>
     </div>
   );
 }

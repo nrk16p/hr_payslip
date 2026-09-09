@@ -1,4 +1,15 @@
 import { useState, useEffect } from "react";
+import {
+  Wallet,
+  User,
+  CalendarDays,
+  Search,
+  Save,
+  Trash2,
+  TrendingUp,
+  TrendingDown,
+  FileBarChart,
+} from "lucide-react";
 import { getSalary, updateSalary, deleteSalary } from "../lib/api";
 import DropdownSearch from "../components/DropdownSearch";
 
@@ -216,122 +227,137 @@ export default function SalaryData() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
-      <div className="max-w-6xl mx-auto space-y-6">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          💰 Salary Data Management
+    <div className="space-y-6">
+      <div>
+        <span className="text-xs tracking-[0.22em] uppercase text-brass-500 font-medium">
+          Payroll Administration
+        </span>
+        <h1 className="font-display text-2xl font-semibold text-parchment mt-2 flex items-center gap-2.5">
+          <Wallet size={21} strokeWidth={1.75} className="text-brass-400" />
+          Salary Data Management
         </h1>
+      </div>
 
-        {/* SEARCH CARD */}
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+      {/* SEARCH CARD */}
+      <div className="bg-ink-800/60 border border-brass-400/15 rounded-xl shadow-[0_20px_40px_-24px_rgba(0,0,0,0.6)] p-6">
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+          {/* Employee */}
+          <div>
+            <label className="text-sm font-medium text-slate-300 mb-2 flex items-center gap-1.5">
+              <User size={13} strokeWidth={1.75} className="text-slate-500" />
+              พนักงาน
+            </label>
+            <DropdownSearch
+              value={params.emp_id}
+              onChange={handleEmployeeChange}
+              options={employeeOptions}
+              placeholder="-- เลือกพนักงาน --"
+              searchPlaceholder="ค้นหา รหัส หรือ ชื่อ..."
+              error={!params.emp_id}
+            />
+          </div>
 
-          {/* Grid Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+          {/* Month-Year */}
+          <div>
+            <label className="text-sm font-medium text-slate-300 mb-2 flex items-center gap-1.5">
+              <CalendarDays size={13} strokeWidth={1.75} className="text-slate-500" />
+              เดือน-ปี
+            </label>
+            <DropdownSearch
+              value={params["month-year"]}
+              onChange={handleMonthChange}
+              options={monthOptions}
+              placeholder="-- เลือกเดือน-ปี --"
+              searchPlaceholder="ค้นหาเดือน..."
+              error={!params["month-year"]}
+            />
+          </div>
 
-            {/* Employee */}
-            <div>
-              <label className="text-sm font-medium text-slate-600 mb-2 block">
-                👨‍✈️ พนักงาน 
-              </label>
-              <DropdownSearch
-                value={params.emp_id}
-                onChange={handleEmployeeChange}
-                options={employeeOptions}
-                placeholder="-- เลือกพนักงาน --"
-                searchPlaceholder="ค้นหา รหัส หรือ ชื่อ..."
-                error={!params.emp_id}
-              />
-            </div>
-
-            {/* Month-Year */}
-            <div>
-              <label className="text-sm font-medium text-slate-600 mb-2 block">
-                🗓️ เดือน-ปี
-              </label>
-              <DropdownSearch
-                value={params["month-year"]}
-                onChange={handleMonthChange}
-                options={monthOptions}
-                placeholder="-- เลือกเดือน-ปี --"
-                searchPlaceholder="ค้นหาเดือน..."
-                error={!params["month-year"]}
-              />
-            </div>
-
-            {/* Button */}
-            <div>
-              <button
-                onClick={handleSearch}
-                disabled={loading}
-                className="w-full md:w-auto px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-medium transition-all shadow-sm hover:shadow-md disabled:opacity-50"
-              >
-                {loading ? "กำลังค้นหา..." : "🔍 ค้นหา"}
-              </button>
-            </div>
-
+          {/* Button */}
+          <div>
+            <button
+              onClick={handleSearch}
+              disabled={loading}
+              className="w-full md:w-auto flex items-center justify-center gap-1.5 px-6 py-2.5 rounded-md text-sm font-semibold text-[#14100a] bg-gradient-to-b from-brass-300 to-brass-600 hover:brightness-110 transition-all disabled:opacity-50"
+            >
+              <Search size={15} strokeWidth={2} />
+              {loading ? "กำลังค้นหา..." : "ค้นหา"}
+            </button>
           </div>
         </div>
-
-        {/* RESULT */}
-        {data && (
-          <div className="bg-white border rounded-xl shadow-sm p-8 space-y-6">
-            <div className="flex justify-between items-center">
-              <div className="space-y-1">
-                <h2 className="text-xl font-semibold flex items-center gap-2">
-                  🧾 {data["ชื่อ - นามสกุล"]}
-                </h2>
-                <div className="text-sm text-slate-600">
-                  รหัสพนักงาน: <b>{data["รหัสพนักงาน"]}</b> · สถานะ:{" "}
-                  <b>{data["สถานะคนลาออก"]}</b>
-                </div>
-              </div>
-              <div className="text-sm text-slate-600">{data.Sheet}</div>
-            </div>
-
-            <SectionTable
-              title="รายได้ (Earnings)"
-              color="text-green-700"
-              section="earnings"
-              items={data?.datalist?.earnings}
-              onEdit={handleFieldEdit}
-            />
-
-            <SectionTable
-              title="รายจ่าย (Deductions)"
-              color="text-red-700"
-              section="deductions"
-              items={data?.datalist?.deductions}
-              onEdit={handleFieldEdit}
-            />
-
-            <SectionTable
-              title="สรุป (Summary)"
-              color="text-blue-700"
-              section="summary"
-              items={data?.datalist?.summary}
-              onEdit={handleFieldEdit}
-            />
-
-            <div className="mt-2 flex justify-end gap-3">
-              <button
-                onClick={handleDelete}
-                disabled={deleting}
-                className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition disabled:opacity-50"
-              >
-                {deleting ? "กำลังลบ..." : "🗑️ ลบ"}
-              </button>
-
-              <button
-                onClick={handleUpdate}
-                disabled={updating}
-                className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition disabled:opacity-50"
-              >
-                {updating ? "กำลังบันทึก..." : "💾 บันทึก"}
-              </button>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* RESULT */}
+      {data && (
+        <div className="bg-ink-800/60 border border-brass-400/15 rounded-xl shadow-[0_20px_40px_-24px_rgba(0,0,0,0.6)] p-8 space-y-6">
+          <div className="flex justify-between items-center">
+            <div className="space-y-1">
+              <h2 className="font-display text-xl font-semibold text-parchment">
+                {data["ชื่อ - นามสกุล"]}
+              </h2>
+              <div className="text-sm text-slate-400">
+                รหัสพนักงาน:{" "}
+                <b className="text-slate-300 font-medium">
+                  {data["รหัสพนักงาน"]}
+                </b>{" "}
+                · สถานะ:{" "}
+                <b className="text-slate-300 font-medium">
+                  {data["สถานะคนลาออก"]}
+                </b>
+              </div>
+            </div>
+            <div className="text-sm text-slate-500">{data.Sheet}</div>
+          </div>
+
+          <SectionTable
+            title="รายได้ (Earnings)"
+            icon={TrendingUp}
+            color="text-emerald-brass"
+            section="earnings"
+            items={data?.datalist?.earnings}
+            onEdit={handleFieldEdit}
+          />
+
+          <SectionTable
+            title="รายจ่าย (Deductions)"
+            icon={TrendingDown}
+            color="text-oxblood-light"
+            section="deductions"
+            items={data?.datalist?.deductions}
+            onEdit={handleFieldEdit}
+          />
+
+          <SectionTable
+            title="สรุป (Summary)"
+            icon={FileBarChart}
+            color="text-brass-400"
+            section="summary"
+            items={data?.datalist?.summary}
+            onEdit={handleFieldEdit}
+          />
+
+          <div className="mt-2 flex justify-end gap-3">
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              className="flex items-center gap-1.5 px-6 py-2 rounded-md text-sm font-medium text-oxblood-light border border-oxblood/30 hover:bg-oxblood/10 transition disabled:opacity-50"
+            >
+              <Trash2 size={15} strokeWidth={1.75} />
+              {deleting ? "กำลังลบ..." : "ลบ"}
+            </button>
+
+            <button
+              onClick={handleUpdate}
+              disabled={updating}
+              className="flex items-center gap-1.5 px-6 py-2 rounded-md text-sm font-semibold text-[#14100a] bg-gradient-to-b from-brass-300 to-brass-600 hover:brightness-110 transition disabled:opacity-50"
+            >
+              <Save size={15} strokeWidth={1.75} />
+              {updating ? "กำลังบันทึก..." : "บันทึก"}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -339,17 +365,18 @@ export default function SalaryData() {
 /* --------------------------------------------------------
    🔸 Subcomponent: Editable Table Section
 -------------------------------------------------------- */
-function SectionTable({ title, color, section, items, onEdit }) {
+function SectionTable({ title, icon: Icon, color, section, items, onEdit }) {
   const [editingKey, setEditingKey] = useState(null);
   const [editValue, setEditValue] = useState("");
 
   return (
     <div className="mb-2">
-      <h3 className={`text-lg font-semibold mb-3 ${color} flex items-center gap-1`}>
+      <h3 className={`text-sm font-semibold mb-3 ${color} flex items-center gap-1.5 tracking-wide`}>
+        {Icon && <Icon size={15} strokeWidth={1.75} />}
         {title}
       </h3>
 
-      <div className="overflow-hidden border border-slate-200 rounded-lg shadow-sm">
+      <div className="overflow-hidden border border-white/8 rounded-lg">
         <table className="w-full text-sm border-collapse">
           <tbody>
             {Object.entries(items || {}).map(([key, value], index) => {
@@ -360,14 +387,14 @@ function SectionTable({ title, color, section, items, onEdit }) {
                 <tr
                   key={rowKey}
                   className={`${
-                    index % 2 === 0 ? "bg-slate-50" : "bg-white"
-                  } hover:bg-blue-50 transition-colors`}
+                    index % 2 === 0 ? "bg-white/[0.02]" : ""
+                  } hover:bg-brass-400/[0.06] transition-colors`}
                 >
-                  <td className="p-3 font-medium text-slate-800 border-b border-slate-100">
+                  <td className="p-3 font-medium text-slate-300 border-t border-white/5">
                     {key}
                   </td>
 
-                  <td className="p-3 text-right border-b border-slate-100 w-48">
+                  <td className="p-3 text-right border-t border-white/5 w-48">
                     {editingKey === rowKey ? (
                       <input
                         type="number"
@@ -387,12 +414,12 @@ function SectionTable({ title, color, section, items, onEdit }) {
                             setEditingKey(null);
                           }
                         }}
-                        className="border border-blue-300 rounded px-2 py-1 w-28 text-right outline-none focus:ring focus:ring-blue-200"
+                        className="border border-brass-400/40 rounded px-2 py-1 w-28 text-right text-parchment bg-ink-900/60 outline-none focus:ring-2 focus:ring-brass-400/20"
                         autoFocus
                       />
                     ) : (
                       <span
-                        className="cursor-pointer text-slate-700 hover:text-blue-700 select-none"
+                        className="cursor-pointer text-slate-300 hover:text-brass-300 select-none"
                         onClick={() => {
                           setEditingKey(rowKey);
                           setEditValue(

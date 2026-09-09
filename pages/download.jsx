@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Download as DownloadIcon } from "lucide-react";
 
 export default function Download() {
   const [month, setMonth] = useState("");
@@ -26,45 +27,41 @@ export default function Download() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-3xl mx-auto">
-
-        <h1 className="text-2xl font-bold mb-6 flex items-center gap-2">
-          📥 Download Payroll Excel
+    <div className="max-w-3xl">
+      <div className="mb-8">
+        <span className="text-xs tracking-[0.22em] uppercase text-brass-500 font-medium">
+          Payroll Administration
+        </span>
+        <h1 className="font-display text-2xl font-semibold text-parchment mt-2 flex items-center gap-2.5">
+          <DownloadIcon size={22} strokeWidth={1.75} className="text-brass-400" />
+          Download Payroll Excel
         </h1>
+      </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+      <div className="bg-ink-800/60 border border-brass-400/15 rounded-xl shadow-[0_20px_40px_-24px_rgba(0,0,0,0.6)] p-6">
+        <p className="text-slate-400 text-sm mb-4">ดาวน์โหลดไฟล์เงินเดือน</p>
 
-          <p className="text-gray-700 mb-4">
-            ดาวน์โหลดไฟล์เงินเดือน
-          </p>
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <input
+            type="text"
+            placeholder="เช่น January2569"
+            value={month}
+            onChange={(e) => setMonth(e.target.value)}
+            className="flex-1 w-full border border-white/10 rounded-md px-3 py-2 text-sm text-parchment bg-ink-900/60 placeholder:text-slate-500 outline-none transition-colors focus:border-brass-400/50 focus:ring-2 focus:ring-brass-400/15"
+          />
 
-          <div className="flex flex-col sm:flex-row items-center gap-3">
-
-            <input
-              type="text"
-              placeholder="เช่น January2569"
-              value={month}
-              onChange={(e) => setMonth(e.target.value)}
-              className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-200 outline-none bg-gray-50"
-            />
-
-            <button
-              onClick={handleDownload}
-              disabled={loading}
-              className="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 transition disabled:opacity-50"
-            >
-              {loading ? "กำลังดาวน์โหลด..." : "Download Excel"}
-            </button>
-
-          </div>
-
-          <div className="mt-3 text-sm text-gray-500">
-            ตัวอย่าง format: <b>January2026</b>
-          </div>
-
+          <button
+            onClick={handleDownload}
+            disabled={loading}
+            className="w-full sm:w-auto shrink-0 px-5 py-2.5 rounded-md text-sm font-semibold text-[#14100a] bg-gradient-to-b from-brass-300 to-brass-600 hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "กำลังดาวน์โหลด..." : "Download Excel"}
+          </button>
         </div>
 
+        <div className="mt-3 text-xs text-slate-500">
+          ตัวอย่าง format: <b className="text-slate-400 font-medium">January2026</b>
+        </div>
       </div>
     </div>
   );
